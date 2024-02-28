@@ -4,7 +4,9 @@ import Badge from "react-bootstrap/Badge";
 import Container from "react-bootstrap/Container";
 import { Button } from "react-bootstrap";
 
-function NavBar({ userName, isLogged, setIsLogged }) {
+import pages from "../constants/pages";
+
+function NavBar({ userName, isLogged, setIsLogged, setCurrentPage }) {
   return (
     <Navbar bg="info" data-bs-theme="dark">
       <Container>
@@ -12,8 +14,12 @@ function NavBar({ userName, isLogged, setIsLogged }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#search">Search</Nav.Link>
-            <Nav.Link href="#my-bookings">My Bookings</Nav.Link>
+            <Nav.Link onClick={() => setCurrentPage(pages.SEARCH)}>
+              Search
+            </Nav.Link>
+            <Nav.Link onClick={() => setCurrentPage(pages.MY_BOOKINGS)}>
+              My Bookings
+            </Nav.Link>
           </Nav>
           {isLogged && (
             <>

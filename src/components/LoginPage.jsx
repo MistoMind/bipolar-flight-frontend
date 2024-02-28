@@ -2,15 +2,24 @@ import { Card } from "react-bootstrap";
 import CustomButton from "./CustomButton";
 import { useRef, useState } from "react";
 
-export default function LoginCard({
+import urls from "../constants/urls";
+
+export default function LoginPage({
   userType = "User",
-  loginEndpoint,
   setUserName,
   setIsLogged,
 }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const form = useRef(null);
+
+  let loginEndpoint;
+
+  if (userType === "User") {
+    loginEndpoint = urls.USER_LOGIN_URL;
+  } else if (userType === "Admin") {
+    loginEndpoint = urls.ADMIN_LOGIN_URL;
+  }
 
   function handleLogin(e) {
     e.preventDefault();

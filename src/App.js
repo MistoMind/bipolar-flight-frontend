@@ -1,13 +1,31 @@
-import { Container } from "react-bootstrap";
 import { useState } from "react";
+import { Container } from "react-bootstrap";
 
+import LoginPage from "./components/LoginPage";
 import NavBar from "./components/NavBar";
-import LoginCard from "./components/LoginCard";
-import urls from "./constants/urls";
+import pages from "./constants/pages";
+import SearchPage from "./components/SearchPage";
+import MyBookingsPage from "./components/MyBookingsPage";
 
 function App() {
   const [userName, setUserName] = useState("");
   const [isLogged, setIsLogged] = useState(false);
+  const [currentPage, setCurrentPage] = useState(pages.LOGIN);
+
+  let currentComponent;
+
+  if (currentPage === pages.LOGIN) {
+    currentComponent = (
+      <LoginPage
+        setIsLogged={(status) => setIsLogged(status)}
+        setUserName={(name) => setUserName(name)}
+      />
+    );
+  } else if (currentPage === pages.SEARCH) {
+    currentComponent = <SearchPage />;
+  } else if (currentPage === pages.MY_BOOKINGS) {
+    currentComponent = <MyBookingsPage />;
+  }
 
   return (
     <>
@@ -15,6 +33,7 @@ function App() {
         userName={userName}
         isLogged={isLogged}
         setIsLogged={(status) => setIsLogged(status)}
+        setCurrentPage={(currPage) => setCurrentPage(currPage)}
       />
       <Container
         fluid
@@ -27,11 +46,7 @@ function App() {
           alignItems: "center",
         }}
       >
-        <LoginCard
-          loginEndpoint={urls.USER_LOGIN_URL}
-          setIsLogged={(status) => setIsLogged(status)}
-          setUserName={(name) => setUserName(name)}
-        />
+        {currentComponent}
       </Container>
     </>
   );
