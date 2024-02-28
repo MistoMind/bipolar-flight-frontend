@@ -1,14 +1,10 @@
-import { Card } from "react-bootstrap";
-import CustomButton from "./CustomButton";
+import { Button, Card } from "react-bootstrap";
 import { useRef, useState } from "react";
+import axios from "axios";
 
 import urls from "../constants/urls";
 
-export default function LoginPage({
-  userType = "User",
-  setUserName,
-  setIsLogged,
-}) {
+export default function LoginPage({ userType = "User", setUser, setIsLogged }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const form = useRef(null);
@@ -26,16 +22,25 @@ export default function LoginPage({
 
     const data = new FormData(form.current);
 
-    fetch(loginEndpoint, {
-      method: "POST",
-      body: data,
-    })
-      .then((response) => response.json())
-      .then((json_resp) => {
-        console.log(json_resp);
+    axios
+      .post(loginEndpoint, data)
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("token", response["data"]["access_token"]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-        // setUserName(data["name"]);
-        // setIsLogged(true);
+    const token = "Bearer " + localStorage.getItem("token");
+
+    console.log("Token : " + token);
+
+    axios
+      .get(urls.GET_CURRENT_USER, { headers: { Authorization: token } })
+      .then((response) => {
+        setIsLogged(true);
+        setUser(response["data"]);
       })
       .catch((err) => {
         console.log(err.message);
@@ -98,7 +103,18 @@ export default function LoginPage({
             />
           </div>
           <div className="text-center">
-            <CustomButton text="Login" />
+            <Button
+              type="submit"
+              text="Login"
+              size="lg"
+              style={{
+                borderWidth: "0px",
+                backgroundImage:
+                  "linear-gradient(to right, rgb(137, 87, 255), rgb(0, 143, 255))",
+              }}
+            >
+              Login
+            </Button>
           </div>
         </form>
       </Card.Body>

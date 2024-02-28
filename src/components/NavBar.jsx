@@ -6,7 +6,12 @@ import { Button } from "react-bootstrap";
 
 import pages from "../constants/pages";
 
-function NavBar({ userName, isLogged, setIsLogged, setCurrentPage }) {
+function NavBar({ user, isLogged, setIsLogged, setCurrentPage }) {
+  function handleLogout() {
+    localStorage.removeItem("token");
+    setIsLogged(false);
+  }
+
   return (
     <Navbar style={{ backgroundColor: "#4672ff" }} data-bs-theme="dark">
       <Container>
@@ -27,20 +32,33 @@ function NavBar({ userName, isLogged, setIsLogged, setCurrentPage }) {
                 Signed in as:{" "}
                 <Badge className="text-black" bg="light">
                   {" "}
-                  {userName}
+                  {user.name}
                 </Badge>
               </Navbar.Text>
               <Button
                 style={{ margin: "0rem 1rem" }}
                 variant="danger"
                 type="button"
-                onClick={() => setIsLogged(false)}
+                onClick={handleLogout}
               >
                 Logout
               </Button>
             </>
           )}
-          {!isLogged && <Navbar.Text>Not Logged In</Navbar.Text>}
+          {!isLogged && (
+            <Button
+              type="submit"
+              text="Login"
+              style={{
+                borderWidth: "0px",
+                backgroundImage:
+                  "linear-gradient(rgb(0, 169, 0), rgb(0, 255, 0))",
+              }}
+              onClick={() => setCurrentPage(pages.LOGIN)}
+            >
+              Login
+            </Button>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

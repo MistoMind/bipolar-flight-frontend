@@ -8,7 +8,7 @@ import SearchPage from "./components/SearchPage";
 import MyBookingsPage from "./components/MyBookingsPage";
 
 function App() {
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
   const [currentPage, setCurrentPage] = useState(pages.LOGIN);
 
@@ -18,7 +18,7 @@ function App() {
     currentComponent = (
       <LoginPage
         setIsLogged={(status) => setIsLogged(status)}
-        setUserName={(name) => setUserName(name)}
+        setUser={(userDict) => setUser(userDict)}
       />
     );
   } else if (currentPage === pages.SEARCH) {
@@ -30,7 +30,7 @@ function App() {
   return (
     <>
       <NavBar
-        userName={userName}
+        user={user}
         isLogged={isLogged}
         setIsLogged={(status) => setIsLogged(status)}
         setCurrentPage={(currPage) => setCurrentPage(currPage)}
