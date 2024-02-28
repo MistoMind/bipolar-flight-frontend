@@ -8,7 +8,7 @@ import pages from "../constants/pages";
 
 function NavBar({ userName, isLogged, setIsLogged, setCurrentPage }) {
   return (
-    <Navbar bg="info" data-bs-theme="dark">
+    <Navbar style={{ backgroundColor: "#4672ff" }} data-bs-theme="dark">
       <Container>
         <Navbar.Brand>Bipolar Flight</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
